@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Popup</title>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="popup.js"></script>
+		<style>
+			#buttononoff {display: none;}
+			[for="buttononoff"] {
+			  position: relative;
+			  display: block;
+			  width: 70px;
+			  height: 70px;
+			  border-radius: 100%;
+			  background: #ddd linear-gradient(#ccc, #fff);
+			  box-shadow:
+					inset 0 2px 1px rgba(0,0,0,.15),
+					0 2px 5px rgba(200,200,200,.1);
+			  cursor: pointer;
+			}
+			[for="buttononoff"]:after {
+			  content: "";
+			  position: absolute;
+			  left: 40%; top: 40%;
+			  width: 20%;
+			  height: 20%;
+			  border-radius: 100%;
+			  background: #969696 radial-gradient(40% 35%, #ccc, #969696 60%);
+			  box-shadow:
+					inset 0 2px 4px 1px rgba(0,0,0,.3),
+					0 1px 0 rgba(255,255,255,1),
+					inset 0 1px 0 white;
+			}
+			[for="buttononoff"]:before {
+			  content: "";
+			  position: absolute;
+			  top: 8%; right: 8%; bottom: 8%; left: 8%;
+			  border-radius: 100%;
+			  background: #eaeaea;
+			  box-shadow:
+					0 3px 5px rgba(0,0,0,.25),
+					inset 0 1px 0 rgba(255,255,255,.3),
+					inset 0 -5px 5px rgba(100,100,100,.1),
+					inset 0 5px 5px rgba(255,255,255,.3);
+			}
+			#buttononoff:checked ~ [for="buttononoff"]:before {
+			  background: #e5e5e5 linear-gradient(#dedede, #fdfdfd);
+			}
+			#buttononoff:checked ~ [for="buttononoff"]:after {
+			  background: #25d025 radial-gradient(40% 35%, #5aef5a, #25d025 60%);
+			  box-shadow:
+					inset 0 3px 5px 1px rgba(0,0,0,.1),
+					0 1px 0 rgba(255,255,255,.4),
+					0 0 10px 2px rgba(0, 210, 0, .5);
+			}
+			
+			input[type="text"] {
+				border: 1px solid #cccccc; //цвет рамки
+				background: #212121 !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+				outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+				height: 24px; // высота на свое усмотрение
+				width: 120px; // ширина на свое усмотрение
+				color: white; //цвет шрифта в обычном состоянии
+				font-size: 11px; // Размер шрифта
+			}
+			
+			body {
+				font-family: arial;
+				font-size: 11pt;
+				background-color: #ecf0f1;
+				width: 280px;
+				height: 155px; 
+			}
+			table {
+				width: 100%;
+			}
+			.subscr-block {
+				height: 28px;
+				border-radius: 0px 0px 3px 3px;
+				margin-top: 5px;
+				text-align: center;
+				padding-top: 8px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<table>
+			<tbody>
+				<tr height="80px" style="margin-bottom: 1px; margin-top: 1px;">
+					<td align="center" valign="center">
+						<input type="checkbox" id="buttononoff"><label for="buttononoff"></label>
+					</td>
+				</tr>
+				<tr height="30" style="margin-bottom: 1px; margin-top: 1px;">
+					<td style="padding-left: 11px;">
+						<span><a href="https://steamcommunity.com/dev/apikey" target="_blank">API Key</a>:</span>
+						<input type="password" style="height: 24px; width: 183px; padding-left: 5px;" id="apiKey"/>
+					</td>
+				</tr>
+				<tr height="30">
+					<td>
+						<span>Rate(sec):</span>
+						<input type="text" style="height: 24px; width: 30px; padding-left: 5px;" id="rate"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div id="subscription" style="display: none; margin-top: 15px; text-align: center;"><a target="_blank" href="http://extensions.risenraise.com/profile/" id="mail"></a> days: <span id="days"></span></div>
+						<div id="login" style="display: none; margin-top: 15px; text-align: center;"><a target="_blank" href="http://extensions.risenraise.com/accounts/login/">login</a></div>
+						<img id="loading" width="26px" height="26px" style="display: none; margin-left: calc(50% - 13px); margin-top: 15px;" src="images/loader.gif"></img>
+						<button id="subscrBtn" style="display: block; position: relative; width: 128px; margin-left: calc(50% - 64px); margin-top: 15px;" class="btn btn-block btn-lg btn-inverse up-links last">Check subscription</button>
+					</td>
+				<tr>
+			</tbody>
+		</table>
+	</body>
+</html>

