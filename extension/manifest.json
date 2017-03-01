@@ -3,7 +3,7 @@
 	
 	"name": "Steam Incoming Trades Confirmer",
 	"short_name": "S.I.T.C",
-	"version": "1.0.9",
+	"version": "1.1.0",
 	"description": "Confirms all tradeoffers(without outgoing items) automatically.",
 	
 	"permissions": [

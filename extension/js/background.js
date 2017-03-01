@@ -20,6 +20,24 @@ var allFunctionsId = '';
 var acceptingNow = false;
 var logined = true;
 
+//=====================outgoing_offers_memory=====================//
+
+var outgoingOffersMemory =
+{
+	data : {},
+	add : function(id)
+	{
+		outgoingOffersMemory.data[id] = true;
+		setTimeout(outgoingOffersMemory.remove, 5*60*1000);
+	},
+	remove : function(id)
+	{
+		delete outgoingOffersMemory.data[id];
+	}
+}
+
+//_____________________outgoing_offers_memory_____________________//
+
 var headers =
 {
 	forUrl : null,
@@ -242,11 +260,30 @@ function checkingViaAPI(functionId)
 					chrome.browserAction.setBadgeText({ text: "On"});
 					var xhr = new XMLHttpRequest();
 					xhr.open('GET', 'https://api.steampowered.com/IEconService/GetTradeOffers/v1/?get_received_offers=1&active_only=1&time_historical_cutoff=' + Math.round(Date.now() / 1000) + '&key=' + localStorage.getItem('apiKey'), true);
+					xhr.timeout = 30000;
 					xhr.send(null);
+					var xhrDone = false;
+					xhr.ontimeout = function()
+					{
+						if(!xhrDone)
+						{
+							xhrDone = true;
+							setTimeout(checkingViaAPI, randomTime, functionId);
+						}
+					}
+					xhr.onerror = function()
+					{
+						if(!xhrDone)
+						{
+							xhrDone = true;
+							setTimeout(checkingViaAPI, randomTime, functionId);
+						}
+					}
 					xhr.onreadystatechange = function()
 					{
-						if(xhr.readyState == 4)
+						if(xhr.readyState == 4 && !xhrDone)
 						{
+							xhrDone = true;
 							if(xhr.status == 200)
 							{
 								if(xhr.responseText)
@@ -270,17 +307,26 @@ function checkingViaAPI(functionId)
 													sessionId = cookie.value;
 													if(sessionId != undefined)
 													{
+														var steamIdList;
+														try
+														{
+															steamIdList = JSON.parse(localStorage.getItem('steamIdList'));
+														}
+														catch(err) { }
 														var i;
-														var j = 0;
 														for(i = 0; i < allTradeOffers.length; i++)
 														{
 															if(allTradeOffers[i]['items_to_give'] == undefined && allTradeOffers[i]['items_to_receive'] != undefined)
 															{
-																tradeOffersToConfirm[j] = allTradeOffers[i];
-																j++;
+																tradeOffersToConfirm.push(allTradeOffers[i]);
+															}
+															else if(allTradeOffers[i]['items_to_give'] != undefined && steamIdList != undefined && steamIdList['7656119' + (parseInt(allTradeOffers[i]['accountid_other']) + 7960265728)] && !outgoingOffersMemory.data[allTradeOffers[i]['tradeofferid']])
+															{
+																allTradeOffers[i].outgoing = true;
+																tradeOffersToConfirm.push(allTradeOffers[i]);
 															}
 														}
-														if(j > 0)
+														if(tradeOffersToConfirm.length > 0)
 														{
 															function confirmCircle(tradeOffers, sessionId, i, functionId)
 															{
@@ -302,23 +348,42 @@ function checkingViaAPI(functionId)
 																	Origin : 'https://steamcommunity.com'
 																});
 																acceptReq.send(body);
+																var acceptReqDone = false;
 																acceptReq.ontimeout = function()
 																{
-																	if(i < tradeOffers.length)
-																		confirmCircle(tradeOffers, sessionId, i, functionId);
-																	else
+																	if(!acceptReqDone)
 																	{
-																		acceptingNow = false;
-																		setTimeout(checkingViaAPI, randomTime, functionId);
+																		acceptReqDone = true;
+																		if(i < tradeOffers.length)
+																			confirmCircle(tradeOffers, sessionId, i, functionId);
+																		else
+																		{
+																			acceptingNow = false;
+																			setTimeout(checkingViaAPI, randomTime, functionId);
+																		}
 																	}
+																}
+																acceptReq.onerror = function()
+																{
+																	acceptReqDone = true;
+																		if(i < tradeOffers.length)
+																			confirmCircle(tradeOffers, sessionId, i, functionId);
+																		else
+																		{
+																			acceptingNow = false;
+																			setTimeout(checkingViaAPI, randomTime, functionId);
+																		}
 																}
 																acceptReq.onreadystatechange = function()
 																{
-																	if(acceptReq.readyState == 4)
+																	if(acceptReq.readyState == 4 && !acceptReqDone)
 																	{
+																		acceptReqDone = true;
 																		i++;
 																		if(acceptReq.status == 200)
 																		{
+																			if(tradeOffers[i - 1].outgoing)
+																				outgoingOffersMemory.add(tradeOffers[i - 1]['tradeofferid']);
 																			if(i < tradeOffers.length)
 																				confirmCircle(tradeOffers, sessionId, i, functionId);
 																			else

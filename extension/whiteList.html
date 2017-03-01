@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>White List</title>
+		<script src="js/jquery.js"></script>
+		<script src="js/whiteList.js"></script>
+	</head>
+	<style>
+		html, body {
+			background-color: #ECF0F1;
+			height: 500px;
+			width: 400px;
+		}
+		input[type="text"] {
+			text-align: center;
+		}
+	</style>
+	<body>
+		<center><input style="width: 240px;" type="text" placeholder="steamId" id="steamIdToAdd"/><input style="width: 150px;" type="button" value="Add SteamId" id="addSteamId"/></center>
+		<center><input style="width: 240px;" type="text" placeholder="steamId" id="steamIdToDelete"/><input style="width: 150px;" type="button" value="Delete SteamId" id="deleteSteamId"/></center>
+		<ul style="width: calc(100% - 40px); height: 430px; overflow-y: auto;" id="steamIdList"></ul>
+	</body>
+</html>
