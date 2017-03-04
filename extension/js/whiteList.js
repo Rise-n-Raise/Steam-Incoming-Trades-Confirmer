@@ -49,7 +49,8 @@ function listeners()
 {
 	$('#addSteamId').click( function()
 	{
-		var steamIdToAdd = $('#steamIdToAdd').val();
+		var steamIdToAdd = $('#steamIdToAdd').val().replace(/[^0-9]/g, '');
+		$('#steamIdToAdd').val('');
 		var list = JSON.parse(localStorage.getItem('steamIdList'));
 		list[steamIdToAdd] = true;
 		localStorage.setItem('steamIdList', JSON.stringify(list));
