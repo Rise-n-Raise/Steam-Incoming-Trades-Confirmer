@@ -1,10 +1,4 @@
-﻿localStorage.removeItem('accountMail');
-localStorage.removeItem('days');
-localStorage.removeItem('sub');
-chrome.storage.sync.set({'sub': 'false'});
-var subcheck = false;
-
-var audio_notification = new Audio();
+﻿var audio_notification = new Audio();
 audio_notification.preload = 'auto';
 audio_notification.src = 'js/sounds/Isnt-it.mp3';
 
@@ -95,7 +89,7 @@ chrome.runtime.onMessage.addListener( function(response, sender, senDresponse)
 		else if(/activate\:(.*)/g.test(response))
 		{
 			var activate = response.replace(/activate\:/g, '');
-			if(activate == 'true' && localStorage.getItem('sub') == 'true')
+			if(activate == 'true')
 			{
 				active = true;
 				if(acceptingNow != true)
@@ -118,14 +112,6 @@ chrome.runtime.onMessage.addListener( function(response, sender, senDresponse)
 				chrome.runtime.sendMessage('active:false');
 			}
 		}
-		else if(response == 'startsubcheck')
-		{
-			if(subcheck != true)
-			{
-				setTimeout(subInterval, 30*60*1000);
-				subcheck = true;
-			}
-		}
 	}
 });
 
@@ -144,7 +130,7 @@ function checkingViaAPI(functionId)
 		if(logined == true)
 		{
 			randomTime = parseInt(localStorage.getItem('rate'))*1000;
-			if(active == true && localStorage.getItem('sub') == 'true')
+			if(active == true)
 			{
 				if(localStorage.getItem('apiKey') != undefined && localStorage.getItem('apiKey') != '')
 				{
@@ -414,56 +400,4 @@ function createRandomId()
 	for( var i=0; i < 25; i++ )
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 	return text;
-}
-
-function subInterval()
-{
-	var subcheck = new XMLHttpRequest();
-	subcheck.open("GET", "http://extensions.risenraise.com/profile/", true);
-	subcheck.send(null);
-	subcheck.onreadystatechange = function()
-	{
-		if(subcheck.readyState == 4)
-		{
-			if(subcheck.responseText && subcheck.status == 200)
-			{
-				var data = subcheck.responseText;
-				var email = $('#email', data).text();
-				if(email != '')
-				{
-					var subDays = $('span[name="Steam Incoming Trades Confirmer"]', data).text();
-					if($('span[name="CSGOPolygon.com helper"]', data).text() != '' && !isNaN(parseInt($('span[name="CSGOPolygon.com helper"]', data).text())) && parseInt($('span[name="CSGOPolygon.com helper"]', data).text()) >= 0)
-						subDays = parseInt($('span[name="CSGOPolygon.com helper"]', data).text());
-					if((subDays != undefined) && (subDays != '') && (parseInt(subDays) >= 0))
-					{
-						if(subDays == '0') subDays = 1;
-						var subscription = 'true';
-					}
-					else
-					{
-						var subscription = 'false';
-						subDays = '0';
-					}
-					localStorage.setItem('accountMail', email);
-					localStorage.setItem('days', subDays);
-					localStorage.setItem('sub', subscription);
-					chrome.storage.sync.set({'sitcSub': subscription});
-				}
-				else
-				{
-					var subscription = 'false';
-					var subDays = '0';
-					localStorage.setItem('accountMail', email);
-					localStorage.setItem('sub', subscription);
-					localStorage.setItem('days', subDays);
-					chrome.storage.sync.set({'sitcSub': subscription});
-				}
-				setTimeout(subInterval, 30*60*1000);
-			}
-			else
-			{
-				setTimeout(subInterval, 30*1000);
-			}
-		}
-	}
 }
