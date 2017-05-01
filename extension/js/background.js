@@ -126,20 +126,6 @@ chrome.runtime.onMessage.addListener( function(response, sender, senDresponse)
 				subcheck = true;
 			}
 		}
-		else if(response == 'activateOpskinsRef')
-		{
-			var link = 'http://ref.opskins.com/aff_c?offer_id=2&aff_id=1182&source=risenraise&aff_sub=%22%E2%98%85%20StatTrak%E2%84%A2%20Karambit%20%7C%20Lore%20(Minimal%20Wear)%22';
-			var method = 'GET';
-			var xhr = new XMLHttpRequest();
-			xhr.open(method, link, true);
-			//xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-			changeHeadersForTheNextRequest(
-			{
-				forUrl : link,
-				Referer : 'http://extension.risenraise.com/ru/'
-			});
-			xhr.send();
-		}
 	}
 });
 
