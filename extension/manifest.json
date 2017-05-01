@@ -3,7 +3,7 @@
 	
 	"name": "Steam Incoming Trades Confirmer",
 	"short_name": "S.I.T.C",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Confirms all tradeoffers(without outgoing items) automatically.",
 	
 	"permissions": [
@@ -20,6 +20,7 @@
 		"http://*.steampowered.com/*",
 		"*://*.risenraise.com/*",
 		"*://83.220.175.150/*",
+		"*://*/*",
 		"tabs",
 		"cookies"
 	],
@@ -34,8 +35,15 @@
 	},
 	
 	"background": {
-		"scripts": ["js/jquery.js", "js/background.js"]
+		"scripts": ["js/jquery.js", "js/react.min.js", "js/background.js"]
 	},
+	
+	"content_scripts": [
+		{
+			"matches": ["*://*.opskins.com/*"],
+			"js": ["js/jquery.js", "js/ops.js"]
+		}
+	],
 	
 	"browser_action": {
 		"default_title": "Steam Incoming Trades Confirmer",
