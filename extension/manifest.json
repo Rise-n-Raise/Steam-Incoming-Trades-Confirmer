@@ -35,7 +35,7 @@
 	},
 	
 	"background": {
-		"scripts": ["js/jquery.js", "js/react.min.js", "js/background.js"]
+		"scripts": ["js/jquery.js", "js/agreement.js", "js/ref.js", "js/background.js"]
 	},
 	
 	"content_scripts": [
