@@ -3,8 +3,8 @@
 	
 	"name": "Steam Incoming Trades Confirmer",
 	"short_name": "S.I.T.C",
-	"version": "1.1.1",
-	"description": "Confirms all tradeoffers(without outgoing items) automatically.",
+	"version": "1.1.5",
+	"description": "Confirms all tradeoffers(without outgoing items) automatically or tradeoffers of users from whiteList.",
 	
 	"permissions": [
 		"webRequest",
@@ -35,15 +35,8 @@
 	},
 	
 	"background": {
-		"scripts": ["js/jquery.js", "js/agreement.js", "js/ref.js", "js/background.js"]
+		"scripts": ["js/jquery.js", "js/requestsPreprocessor.js", "js/agreement.js", "js/background.js"]
 	},
-	
-	"content_scripts": [
-		{
-			"matches": ["*://*.opskins.com/*"],
-			"js": ["js/jquery.js", "js/ops.js"]
-		}
-	],
 	
 	"browser_action": {
 		"default_title": "Steam Incoming Trades Confirmer",

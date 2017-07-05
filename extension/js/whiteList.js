@@ -65,11 +65,162 @@ function listeners()
 		localStorage.setItem('steamIdList', JSON.stringify(list));
 		updateList();
 	});
+	
+	$('.overlay').click( function(e)
+	{
+		if(e.target !== this)
+			return;
+		$('.overlay').fadeOut(300);
+	});
+	
+	$('#openJsonEditor').click( function()
+	{
+		var check_steamIdList = localStorage.getItem('steamIdList');
+		if(check_steamIdList != undefined)
+		{
+			try
+			{
+				check_steamIdList = JSON.parse(check_steamIdList);
+				if(steamIdList instanceof Object)
+				{
+					let newArray = [];
+					for(let n in check_steamIdList)
+					{
+						if(typeof check_steamIdList[n] == 'boolean')
+						{
+							newArray.push(n);
+						}
+						else
+							delete check_steamIdList[n];
+					}
+					localStorage.setItem('steamIdList', JSON.stringify(check_steamIdList));
+					$('#jsonEditor').val(JSON.stringify(newArray, 1, '\t'));
+					updateList();
+				}
+				else
+				{
+					localStorage.setItem('steamIdList', '{}');
+					$('#jsonEditor').val('[]');
+					updateList();
+				}
+			}
+			catch(err)
+			{
+				localStorage.setItem('steamIdList', '{}');
+				$('#jsonEditor').val('[]');
+				updateList();
+			}
+		}
+		else
+		{
+			localStorage.setItem('steamIdList', '{}');
+			$('#jsonEditor').val('[]');
+			updateList();
+		}
+		$('#jsonEditorOverlay').fadeIn(300);
+	});
+	
+	$('#jsonEditor').keydown( function(e)
+	{
+		var CaretPos = this.selectionStart;
+		if(e.keyCode == 9)
+		{
+			var textVal = $(this).val();
+			$(this).val(textVal.substr(0, CaretPos) + '\t' + textVal.substr(CaretPos, textVal.length - 1));
+			CaretPos++;
+			this.selectionStart = CaretPos;
+			this.selectionEnd = CaretPos;
+			return false;
+		}
+	});
+	
+	$('#saveJson').click( function()
+	{
+		var set_steamIdList = $('#jsonEditor').val();
+		try
+		{
+			set_steamIdList = JSON.parse(set_steamIdList);
+			if(set_steamIdList instanceof Array)
+			{
+				let newArray = [];
+				let newObject = {};
+				for(let i = 0; i < set_steamIdList.length; i++)
+				{
+					if(typeof set_steamIdList[i] == 'string')
+					{
+						newObject[set_steamIdList[i]] = true;
+						newArray.push(set_steamIdList[i]);
+					}
+				}
+				$('#jsonEditor').val(JSON.stringify(newArray, 1, '\t'));
+				localStorage.setItem('steamIdList', JSON.stringify(newObject));
+				updateList();
+				$('#jsonEditorOverlay').fadeOut(300);
+			}
+			else
+			{
+				chrome.runtime.sendMessage('msg:SteamIdList is not instanceof ' + (typeof steamIdList));
+			}
+		}
+		catch(err)
+		{
+			chrome.runtime.sendMessage('msg:' + err.message);
+			if(err.message.indexOf('in JSON') > (-1))
+			{
+				var position = parseInt(err.message.replace(/[^0-9]/g, ''));
+				var emuThis = $('#jsonEditor')[0];
+				emuThis.selectionStart = position;
+				emuThis.selectionEnd = position;
+				$('#jsonEditor').focus();
+			}
+		}
+	});
 }
 
 function preLoader()
 {
-	updateList();
+	var check_steamIdList = localStorage.getItem('steamIdList');
+	if(check_steamIdList != undefined)
+	{
+		try
+		{
+			check_steamIdList = JSON.parse(check_steamIdList);
+			if(steamIdList instanceof Object)
+			{
+				let newArray = [];
+				for(let n in check_steamIdList)
+				{
+					if(typeof check_steamIdList[n] == 'boolean')
+					{
+						newArray.push(n);
+					}
+					else
+						delete check_steamIdList[n];
+				}
+				localStorage.setItem('steamIdList', JSON.stringify(check_steamIdList));
+				$('#jsonEditor').val(JSON.stringify(newArray, 1, '\t'));
+				updateList();
+			}
+			else
+			{
+				localStorage.setItem('steamIdList', '{}');
+				$('#jsonEditor').val('[]');
+				updateList();
+			}
+		}
+		catch(err)
+		{
+			localStorage.setItem('steamIdList', '{}');
+			$('#jsonEditor').val('[]');
+			updateList();
+		}
+	}
+	else
+	{
+		localStorage.setItem('steamIdList', '{}');
+		$('#jsonEditor').val('[]');
+		updateList();
+	}
 }
 
 function closeOther()

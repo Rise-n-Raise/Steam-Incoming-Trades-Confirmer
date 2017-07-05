@@ -129,7 +129,7 @@ function checkingViaAPI(functionId)
 	{
 		if(logined == true)
 		{
-			randomTime = parseInt(localStorage.getItem('rate'))*1000;
+			randomTime = parseInt(localStorage.getItem('rate'));
 			if(active == true)
 			{
 				if(localStorage.getItem('apiKey') != undefined && localStorage.getItem('apiKey') != '')
@@ -272,7 +272,7 @@ function checkingViaAPI(functionId)
 																		}
 																		else if(acceptReq.status == 403)
 																		{
-																			logined = false;
+																			//logined = false;
 																			acceptingNow = false;
 																			setTimeout(checkingViaAPI, randomTime, functionId);
 																		}
@@ -298,12 +298,13 @@ function checkingViaAPI(functionId)
 													}
 													else
 													{
-														chrome.browserAction.setBadgeBackgroundColor({ color: '#FF0000'});
+														/*chrome.browserAction.setBadgeBackgroundColor({ color: '#FF0000'});
 														chrome.browserAction.setBadgeText({ text: "Off"});
 														active = false;
 														chrome.runtime.sendMessage('active:false');
 														allFunctionsId = allFunctionsId.replace(functionId+';', '');
-														chrome.runtime.sendMessage('login');
+														chrome.runtime.sendMessage('login');*/
+														setTimeout(checkingViaAPI, randomTime, functionId);
 													}
 												});
 											}
@@ -331,10 +332,10 @@ function checkingViaAPI(functionId)
 							}
 							else if(xhr.status == 403)
 							{
-								chrome.browserAction.setBadgeBackgroundColor({ color: '#FF0000'});
+								/*chrome.browserAction.setBadgeBackgroundColor({ color: '#FF0000'});
 								chrome.browserAction.setBadgeText({ text: "Off"});
 								active = false;
-								chrome.runtime.sendMessage('active:false');
+								chrome.runtime.sendMessage('active:false');*/
 								allFunctionsId = allFunctionsId.replace(functionId+';', '');
 								chrome.runtime.sendMessage('audioMsg:Invalid API Key!');
 							}

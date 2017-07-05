@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Popup</title>
 		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="popup.js"></script>
+		<script type="text/javascript" src="js/popup.js"></script>
 		<style>
 			#buttononoff {display: none;}
 			[for="buttononoff"] {
@@ -71,7 +71,7 @@
 				font-size: 11pt;
 				background-color: #ecf0f1;
 				width: 280px;
-				height: 155px; 
+				height:185px; 
 			}
 			table {
 				width: 100%;
@@ -83,12 +83,17 @@
 				text-align: center;
 				padding-top: 8px;
 			}
+			.link {
+				cursor: pointer;
+				color: #0000ee;
+				text-decoration: underline;
+			}
 		</style>
 	</head>
 	
-	<body>
-		<a style="position: absolute; top: 37px; right: 23px;" href="/whiteList.html" target="_blank">White List</a>
-		<table>
+	<body style="width: 512px;">
+		<a class="main-elements" style="position: absolute; top: 37px; right: 23px; display: none;" href="/whiteList.html" target="_blank">White List</a>
+		<table class="main-elements" style="display: none;">
 			<tbody>
 				<tr height="80px" style="margin-bottom: 1px; margin-top: 1px;">
 					<td align="center" valign="center">
@@ -103,11 +108,26 @@
 				</tr>
 				<tr height="30">
 					<td>
-						<span>Rate(sec):</span>
-						<input type="text" style="height: 24px; width: 30px; padding-left: 5px;" id="rate"/>
+						<span>Rate:</span>
+						<input type="text" style="height: 24px; width: 45px; text-align: center;" id="rate"/>
+						<span style="margin-left: 5px;"><a target="_blank" href="https://vk.com/trade_extensions?w=wall-112239579_2566">recommended</a> 1000ms.</span>
+					</td>
+				</tr>
+				<tr height="30">
+					<td>
+						<a href="http://ref.opskins.com/aff_c?offer_id=2&aff_id=1182&file_id=60" target="_blank"><img src="https://media.go2speed.org/brand/files/opskinz/2/20161025003840-728x90.jpg" width="270" border="0" /></a><img src="http://ref.opskins.com/aff_i?offer_id=2&file_id=60&aff_id=1182" width="1" height="1" />
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		
+		<!-- <img class="ads-elements link" src="https://media.go2speed.org/brand/files/opskinz/2/fb_ad4.jpg" width="512" border="0" />
+		<center class="ads-elements"><b class="link">Click to use extension for free</b></center> -->
+		
+		<a class="ads-elements" href="http://extensions.risenraise.com/pages/redirect/ops/" target="_blank"><img src="https://media.go2speed.org/brand/files/opskinz/2/fb_ad4.jpg" width="512" border="0" /></a>
+		<center class="ads-elements"><a href="http://extensions.risenraise.com/pages/redirect/ops/" target="_blank"><b>Click to use extension for free</b></a></center>
+		
+		<!-- <a class="ads-elements" href="http://ref.opskins.com/aff_c?offer_id=2&aff_id=1182&file_id=70&source=sitc" target="_blank"><img src="https://media.go2speed.org/brand/files/opskinz/2/fb_ad4.jpg" width="512" border="0" /></a>
+		<center class="ads-elements"><a href="http://ref.opskins.com/aff_c?offer_id=2&aff_id=1182&file_id=70&source=sitc" target="_blank"><b>Click to use extension for free</b></a></center> -->
 	</body>
 </html>
