@@ -103,5 +103,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener( onBeforeSendHeadersFunction,
 },
 [
     "requestHeaders",
-    "blocking"
+    "blocking",
+    "extraHeaders"
 ]);
